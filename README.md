@@ -1,2 +1,2 @@
-# motionenc
+# MotionEncoder
 generate motion encoder from movies
