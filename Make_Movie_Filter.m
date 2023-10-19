@@ -8,9 +8,6 @@ if ~exist([pn_m '\DataBase_filter.mat'],'file')
 end
 
 pn_def = 'C:\Users\gengoro\SynologyDrive\Behavior\PTZ';
-%addpath('C:\Users\gengoro\Dropbox (Scripps Research)\_OriginalSoftwares\MATLAB program CF\_DeepLearning\MovieFilter\_SOM');
-%pn_mov = 'C:\Users\gengoro\SynologyDrive\test';
-%fn_mov = 'PTZ20230717-1_1_crop1350_crop1.avi';
 [fn_mov, pn_mov] = uigetfile([pn_def, '\*.avi'],'select *.avi');
 yn_save_heavy_fig = 'n';%時間がかかる
 yn_plot = input('yn_plot y/n \n','s');
@@ -237,8 +234,8 @@ end
 
 %-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
-if exist([pn_m '\DataBase_SOM.mat'],'file')
-    load([pn_m '\DataBase_SOM.mat']);
+if exist([pn_filter '\DataBase_SOM.mat'],'file')
+    load([pn_filter '\DataBase_SOM.mat']);
     for id_data = 1:numel(DataBase_SOM.pn_filter.top)
         fprintf('%d: %s\n',id_data, DataBase_SOM.pn_filter.top{id_data});
     end
@@ -260,7 +257,7 @@ for id_wb = 1:numel(List_selectWB)
     DataBase_SOM.(selectWB).net{id_data_som} = net;
     DataBase_SOM.(selectWB).MOV_adjust{id_data_som} = MOV_adjust;
 end
-save([pn_m '\DataBase_SOM.mat'],'DataBase_SOM');
+save([pn_filter '\DataBase_SOM.mat'],'DataBase_SOM');
 %-------------------------------------------------------------------------
 id_data_som =input('Type data#  export to DataBase[RFMap]\n');
 id_dataset = 1;
@@ -271,7 +268,7 @@ for id_wb = 1:numel(List_selectWB)
     DataBase{id_dataset}.yn_good = ones(size(DataBase{id_dataset}.input.RFMap,4),1);
     DataBase{id_dataset}.Rank = repmat({'A'}, 1,size(DataBase{id_dataset}.input.RFMap,4));
     DataBase{id_dataset}.datasetname = 'SOM';
-    save([pn_m '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
+    save([pn_filter '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
 end
 h_start = gcf;
 for id_map = 1:size(DataBase{id_dataset}.input.RFMap,4)
@@ -289,11 +286,11 @@ fig_organizer(h_start.Number:h_end.Number);
 ListGood = input('Type RF# to use m');
 for id_wb = 1:numel(List_selectWB)
     selectWB = List_selectWB{id_wb};
-    load([pn_m '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
+    load([pn_filter '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
     DataBase{id_dataset}.input.RFMap = DataBase{id_dataset}.input.RFMap(:,:,:,ListGood);
     DataBase{id_dataset}.yn_good = DataBase{id_dataset}.yn_good(ListGood);
     DataBase{id_dataset}.Rank = DataBase{id_dataset}.Rank(ListGood);
-    save([pn_m '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
+    save([pn_filter '\DataBase_RFMap_' selectWB '.mat'],'DataBase');
 end
 %-------------------------------------------------------------------------
 %-------------------------------------------------------------------------
